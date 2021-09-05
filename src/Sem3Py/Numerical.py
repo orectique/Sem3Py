@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 class roots:
 
@@ -32,7 +33,10 @@ class roots:
         b = ubound
         for i in range(itn):
             x = (a + b)/2
-            arr = np.vstack([arr, [a, b, x, eval(self.func)]])
+            if i == 0:
+                arr = [a, b, x, eval(self.func)]
+            else:
+                arr = np.vstack([arr, [a, b, x, eval(self.func)]])
             if eval(self.func) > 0:
                 b = x
             elif eval(self.func) < 0:

@@ -1,0 +1,1 @@
+This is a package of Python functions that are useful in Optimization and Numerical methods.

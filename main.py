@@ -1,7 +1,8 @@
 from src.Sem3Py.Numerical import roots
 import math
 
-func = lambda x : x**2 + x*5 - 8
-k = roots(func)
-arr = k.false_position(1.0, 2.0, 10)
+func = lambda x : 3*x**3 + x*5 - 9
+dx = lambda x: 9*x**2 + 5
+k = roots(func, dx)
+arr = k.newton_raphson(1, 10)
 print(arr)

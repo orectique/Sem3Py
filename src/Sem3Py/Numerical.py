@@ -8,8 +8,9 @@ class roots:
     :param func: The function to evaluate.
     :type func: obj
     """
-    def __init__(self, func):
+    def __init__(self, func, dx):
         self.func = func
+        self.dx = dx
 
     def bisection(self, lbound: float, ubound: float, max_itn = 100, delta = 1e-6):
         """
@@ -30,7 +31,7 @@ class roots:
         :return: Numpy array of iteration steps.
         :rtype: ndarray
         """
-        arr = []
+  
         a = lbound
         b = ubound
         itn = 0
@@ -60,7 +61,7 @@ class roots:
     
     def false_position(self, x0: float, x1: float, max_itn = 100, delta = 1e-6):
         """
-        Finding the root of a function using bisection method.
+        Finding the root of a function using false position method.
 
         :param x0: The lower bound of the range to evaluate.
         :type lbound: int
@@ -77,7 +78,7 @@ class roots:
         :return: Numpy array of iteration steps.
         :rtype: ndarray
         """
-        arr = []
+
         a = x0
         b = x1
         lst = [a, b]
@@ -102,7 +103,7 @@ class roots:
     
     def secant(self, x0: float, x1: float, max_itn = 100, delta = 1e-6):
         """
-        Finding the root of a function using bisection method.
+        Finding the root of a function using secant method.
 
         :param x0: The lower bound of the range to evaluate.
         :type lbound: int
@@ -119,7 +120,7 @@ class roots:
         :return: Numpy array of iteration steps.
         :rtype: ndarray
         """
-        arr = []
+
         a = x0
         b = x1
         lst = [a, b]
@@ -143,9 +144,35 @@ class roots:
             return arr
         return
     
-    def ridder():
-        return
-    
-    def newton_raphson():
-        return
+    def newton_raphson(self, x0: float, max_itn = 100, delta = 1e-6):
+        """
+        Finding the root of a function using Newton-Raphson method.
+
+        :param x0: The initial value to evaluate.
+        :type x0: int
+
+        :param max_itn: The maximum number of iterations to evaluate.
+        :type itn: int
+        
+        :param delta: The error threshhold.
+        :type itn: float
+
+        :return: Numpy array of iteration steps.
+        :rtype: ndarray
+        """
+        
+        x = x0
+        itn = 0
+        
+        while itn <= max_itn and abs(self.func(x)/self.dx(x)) >= delta:
+            x = x - (self.func(x)/self.dx(x))
+            
+            if itn == 0:
+                arr = [itn, x, self.func(x), self.dx(x), abs(self.func(x)/self.dx(x))]
+            
+            else: 
+                arr = np.vstack([arr, [itn, x, self.func(x), self.dx(x), abs(self.func(x)/self.dx(x))]])
+            itn += 1
+            
+        return arr
 

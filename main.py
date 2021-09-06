@@ -1,5 +1,4 @@
 from src.Sem3Py.Numerical import roots
-import math
 
 func = lambda x : 3*x**3 + x*5 - 9
 dx = lambda x: 9*x**2 + 5

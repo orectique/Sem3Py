@@ -3,5 +3,5 @@ import math
 
 func = lambda x : x**2 + x*5 - 8
 k = roots(func)
-arr = k.bisection(1.0, 2.0, delta = 0.5)
+arr = k.false_position(1.0, 2.0, 10)
 print(arr)

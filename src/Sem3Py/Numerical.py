@@ -146,6 +146,6 @@ class roots:
     def ridder():
         return
     
-    def newton_rhapson():
+    def newton_raphson():
         return
 

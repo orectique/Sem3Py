@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 class roots:
 
@@ -7,12 +6,12 @@ class roots:
     Instantiate a function.
 
     :param func: The function to evaluate.
-    :type func: int
+    :type func: obj
     """
-    def __init__(self, func: str):
+    def __init__(self, func):
         self.func = func
 
-    def bisection(self, lbound: float, ubound: float, itn: int):
+    def bisection(self, lbound: float, ubound: float, max_itn = 100, delta = 1e-6):
         """
         Finding the root of a function using bisection method.
 
@@ -24,6 +23,9 @@ class roots:
 
         :param itn: The number of iterations to evaluate.
         :type itn: int
+        
+        :param itn: The number of iterations to evaluate.
+        :type itn: int
 
         :return: Numpy array of iteration steps.
         :rtype: ndarray
@@ -31,21 +33,37 @@ class roots:
         arr = []
         a = lbound
         b = ubound
-        for i in range(itn):
+        itn = 0
+        while itn <= max_itn and abs(a-b) >= delta:
             x = (a + b)/2
-            if i == 0:
-                arr = [a, b, x, eval(self.func)]
+            if itn == 0:
+                arr = [a, b, x, self.func(x)]
             else:
-                arr = np.vstack([arr, [a, b, x, eval(self.func)]])
-            if eval(self.func) > 0:
+                arr = np.vstack([arr, [a, b, x, self.func(x)]])
+            if self.func(x) > 0:
                 b = x
-            elif eval(self.func) < 0:
+            elif self.func(x) < 0:
                 a = x
             else:
                 return arr
+            itn += 1
 
         return arr
 
         
 
+    def incremental():
+        return
+    
+    def false_position():
+        return
+    
+    def secant():
+        return
+    
+    def riddler():
+        return
+    
+    def newton_rhapson():
+        return
 

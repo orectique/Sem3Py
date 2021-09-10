@@ -178,4 +178,11 @@ class roots:
             itn += 1
             
         return arr
+    
+    
+    class solutions:
+        def __init__(self):
+            return
+        
+        def 
 

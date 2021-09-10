@@ -173,7 +173,7 @@ class optimize:
     def line_search(self):
         return
     
-    def hook_jeeves(self):
+    def hooke_jeeves(self):
         return
     
     def bisection(self, lbound: float, ubound: float, max_itn = 100, delta = 1e-6):
@@ -219,3 +219,5 @@ class optimize:
                 itn += 1
 
             return arr
+        
+    def steepest_decent()

@@ -180,9 +180,37 @@ class roots:
         return arr
     
     
-    class solutions:
-        def __init__(self):
-            return
+class solutions:
+    def __init__(self):
+        return
         
-        def 
+    def gauss(self, arr_a, arr_b):
+        """
+            Finding the solution to a system of equations using Gauss Elimination.
+
+            :param arr_a: The coefficient matrix.
+            :type arr_a: Numpy ndarray
+            
+            :param arr_b: The constant matrix.
+            :type arr_b: Numpy ndarray
+            
+            :return: Row echelon form of coefficient and constant matrices, solution vector.
+            :rtype: Numpy ndarray, Numpy ndarray
+            
+        """
+        a = arr_a
+        b = arr_b
+        n = len(arr_b)
+        x = [0]*n
+        for k in range(0,n-1):
+            for i in range(k+1,n):
+                if a[i,k] != 0.0:
+                    lam = a[i,k]/a[k,k]
+                    a[i,k+1:n] = a[i,k+1:n] - lam*a[k,k+1:n]
+                    b[i] = b[i] - lam*b[k]
+                        
+        for k in range(n-1,-1,-1):
+            b[k] = (b[k] - np.dot(a[k,k+1:n],b[k+1:n]))/a[k,k]
+                        
+        return np.hstack([a, b]), x
 

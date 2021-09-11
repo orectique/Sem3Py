@@ -181,26 +181,33 @@ class roots:
     
     
 class solutions:
+    """
+        Instantiate a function.
+        
+       :param arr_a: The coefficient matrix.
+       :type arr_a: Numpy ndarray
+           
+       :param arr_b: The constant matrix.
+       :type arr_b: Numpy ndarray
+    
+    """
+    
+    
+    
     def __init__(self):
         return
         
     def gauss(self, arr_a, arr_b):
         """
             Finding the solution to a system of equations using Gauss Elimination.
-
-            :param arr_a: The coefficient matrix.
-            :type arr_a: Numpy ndarray
             
-            :param arr_b: The constant matrix.
-            :type arr_b: Numpy ndarray
-            
-            :return: Row echelon form of coefficient and constant matrices, solution vector.
-            :rtype: Numpy ndarray, Numpy ndarray
+            :return: The solution vector.
+            :rtype: Numpy ndarray
             
         """
         a = arr_a
         b = arr_b
-        n = len(arr_b)
+        n = len(b)
         x = [0]*n
         for k in range(0,n-1):
             for i in range(k+1,n):
@@ -212,5 +219,33 @@ class solutions:
         for k in range(n-1,-1,-1):
             b[k] = (b[k] - np.dot(a[k,k+1:n],b[k+1:n]))/a[k,k]
                         
-        return np.hstack([a, b]), x
+        return b
 
+    def gauss_seidel(self, *funcs):
+        
+        for 
+        
+        return
+    
+    def LUdecomp(self):
+        
+        
+        return
+
+    
+def Eigenvalue:
+    def __init__(self):
+        return
+    
+    def jacobi(self):
+        return
+    
+    def power(self):
+        return
+    
+def Interpolation:
+    def __init__(self):
+        return
+    
+    def lagrange(self):
+        return

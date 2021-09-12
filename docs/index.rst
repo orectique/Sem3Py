@@ -1,10 +1,11 @@
 .. Sem3Py documentation master file, created by
-   sphinx-quickstart on Mon Sep  6 15:39:56 2021.
+   sphinx-quickstart on Sun Sep 12 15:28:17 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
 Welcome to Sem3Py's documentation!
 ==================================
+
 .. automodule:: Sem3Py.Numerical
     :members:
     
@@ -14,8 +15,7 @@ Welcome to Sem3Py's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-
+    
 
 Indices and tables
 ==================

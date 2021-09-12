@@ -5,16 +5,16 @@
 
 Welcome to Sem3Py's documentation!
 ==================================
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
 .. automodule:: Sem3Py.Numerical
     :members:
     
 .. automodule:: Sem3Py.Optimization
     :members:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
 
 
 Indices and tables

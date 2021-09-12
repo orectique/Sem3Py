@@ -246,11 +246,11 @@ class solutions:
                     
         L, U = np.array([[0]*3]*3)
         
-        for i in range n:
-            for j in range n:
+        for i in range(n):
+            for j in range(n):
                 if i > j:
                     L[i, j] = a[i, j]
-                elif i = j:
+                elif i == j:
                     L[i, j] = 1
                     U[i, j] = a[i, j]
                 else:

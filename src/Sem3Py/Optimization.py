@@ -220,4 +220,5 @@ class optimize:
 
             return arr
         
-    def steepest_decent()
+    def steepest_decent():
+        return

@@ -184,22 +184,20 @@ class solutions:
     """
         Instantiate a function.
         
-       :param arr_a: The coefficient matrix.
-       :type arr_a: Numpy ndarray
-           
-       :param arr_b: The constant matrix.
-       :type arr_b: Numpy ndarray
-    
-    """
-    
-    
+    """  
     
     def __init__(self):
         return
         
-    def gauss(self, arr_a, arr_b):
+    def gauss(self, arr_a: np.ndarray, arr_b: np.ndarray):
         """
             Finding the solution to a system of equations using Gauss Elimination.
+            
+            :param arr_a: The coefficient matrix.
+            :type arr_a: Numpy ndarray
+           
+            :param arr_b: The constant matrix.
+            :type arr_b: Numpy ndarray
             
             :return: The solution vector.
             :rtype: Numpy ndarray
@@ -222,18 +220,70 @@ class solutions:
         return b
 
     def gauss_seidel(self, *funcs):
-        
-        for 
-        
+
         return
     
-    def LUdecomp(self):
+    def LUdecomp(self, arr_a: np.ndarray):
+        """
+            LU Decomposition of symmetric matrix.
+            
+            :param arr_a: The coefficient matrix.
+            :type arr_a: Numpy ndarray
+           
+            :return: Decomposed L and U matrices.
+            :rtype: Numpy ndarray, Numpy ndarray
+            
+        """
+               
+        a = arr_a
+        n = len(a)
+        for k in range(0,n-1):
+            for i in range(k+1,n):
+                if a[i,k] != 0.0:
+                    lam = a [i,k]/a[k,k]
+                    a[i,k+1:n] = a[i,k+1:n] - lam*a[k,k+1:n]
+                    a[i,k] = lam
+                    
+        L, U = np.array([[0]*3]*3)
         
+        for i in range n:
+            for j in range n:
+                if i > j:
+                    L[i, j] = a[i, j]
+                elif i = j:
+                    L[i, j] = 1
+                    U[i, j] = a[i, j]
+                else:
+                    U[i, j] = a[i, j]
+                
+        return L, U 
+                
+    def LUsolve(self, arr_a: np.ndarray, arr_b: np.ndarray):
+        """
+            Finding the solution to a system of equations using LU Decomposition.
+            
+            :param arr_a: The coefficient matrix.
+            :type arr_a: Numpy ndarray
+           
+            :param arr_b: The constant matrix.
+            :type arr_b: Numpy ndarray
+            
+            :return: The solution vector.
+            :rtype: Numpy ndarray
+            
+        """
+   
+        n = len(a)
+        for k in range(1,n):
+            b[k] = b[k] - np.dot(a[k,0:k],b[0:k])
+        b[n-1] = b[n-1]/a[n-1,n-1]
+        for k in range(n-2,-1,-1):
+            b[k] = (b[k] - np.dot(a[k,k+1:n],b[k+1:n]))/a[k,k]
         
-        return
+        return b
 
     
-def Eigenvalue:
+class Eigenvalue:
     def __init__(self):
         return
     
@@ -243,9 +293,12 @@ def Eigenvalue:
     def power(self):
         return
     
-def Interpolation:
+class Interpolation:
     def __init__(self):
         return
     
     def lagrange(self):
+        return
+    
+    def newton(self):
         return

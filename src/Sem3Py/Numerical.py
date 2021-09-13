@@ -11,7 +11,7 @@ class roots:
     :param dx: The derivative of the function passed to 'func'. Optional - Used only in Newton-Raphson method.
     :type dx: Lambda function object
     """
-    def __init__(self, func, dx):
+    def __init__(self, func, dx = None):
         self.func = func
         self.dx = dx
 

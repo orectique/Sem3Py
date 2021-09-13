@@ -1,11 +1,6 @@
-from src.Sem3Py.Numerical import solutions as sln
-import numpy as np
+from src.Sem3Py.Numerical import roots
 
-a = np.array([[1, 1, 1], [2, 3, 7], [1, 3, -2]])
-b = np.array([3, 0, 17])
-
-obj = sln()
-
-x = obj.gauss(a, b)
-print(x)
+k = roots('x**2')
+arr = k.bisection(-1.0, 2.0, 10)
+print(arr)
 

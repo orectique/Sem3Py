@@ -1,6 +1,6 @@
 import numpy as np
 
-class roots:
+class Roots:
 
     """
     Instantiate a function.
@@ -180,31 +180,32 @@ class roots:
         return arr
     
     
-class solutions:
+class Solutions:
     """
         Instantiate a function.
         
+        :param arr_a: The coefficient matrix.
+        :type arr_a: Numpy ndarray
+           
+        :param arr_b: The constant matrix.
+        :type arr_b: Numpy ndarray
+        
     """  
     
-    def __init__(self):
-        return
-        
-    def gauss(self, arr_a: np.ndarray, arr_b: np.ndarray):
+    def __init__(self, arr_a: np.ndarray, arr_b: np.ndarray):
+        self.arr_a = np.array(arr_a).astype(float)
+        self.arr_b = np.array(arr_b).astype(float)
+                
+    def gauss(self):
         """
             Finding the solution to a system of equations using Gauss Elimination.
-            
-            :param arr_a: The coefficient matrix.
-            :type arr_a: Numpy ndarray
-           
-            :param arr_b: The constant matrix.
-            :type arr_b: Numpy ndarray
             
             :return: The solution vector.
             :rtype: Numpy ndarray
             
         """
-        a = arr_a
-        b = arr_b
+        a = self.arr_a
+        b = self.arr_b
         n = len(b)
         x = [0]*n
         for k in range(0,n-1):
@@ -218,12 +219,58 @@ class solutions:
             b[k] = (b[k] - np.dot(a[k,k+1:n],b[k+1:n]))/a[k,k]
                         
         return b
-
-    def gauss_seidel(self, *funcs):
-
-        return
     
-    def LUdecomp(self, arr_a: np.ndarray):
+
+    def gauss_seidel(self, funcs: list, guess: list, delta = 0.01):
+        
+        """
+            Gauss Seidel approximation of the solution to a system of equations.
+            
+            :param funcs: List of lambda functions of lists.
+            :type funcs: list
+            
+            :param guess: Vector of guessed values.
+            :type guess: list
+            
+            :param delta: Tolerance value.
+            :type delta: float
+           
+            :return: Iterated approximations of solution.
+            :rtype: Numpy ndarray
+            
+        """
+        
+        funcs = funcs
+        arr1 = guess
+        arr2 = guess
+        flag = False
+        itn = 1
+        
+        while flag == False:
+                
+            temp_arr2 = []
+            for i in range(len(funcs)):
+                temp_arr = []
+                for j in range(len(funcs)):
+                    if i != j:
+                        temp_arr.append(arr1[j])
+                
+                temp_arr2.append(funcs[i](temp_arr))
+                               
+            arr2 = np.vstack([arr2, some_arr])
+            arr1 = temp_arr2
+                        
+            ls = [abs((arr2[itn, i] - arr2[itn-1, i])/arr2[itn, i]) for i in range(len(arr1))]
+
+            for val in ls:
+                if val < delta:
+                    flag = True
+                    
+            itn += 1
+            
+        return arr2   
+    
+    def LUdecomp(self):
         """
             LU Decomposition of symmetric matrix.
             
@@ -235,7 +282,7 @@ class solutions:
             
         """
                
-        a = arr_a
+        a = self.arr_a
         n = len(a)
         for k in range(0,n-1):
             for i in range(k+1,n):
@@ -244,7 +291,8 @@ class solutions:
                     a[i,k+1:n] = a[i,k+1:n] - lam*a[k,k+1:n]
                     a[i,k] = lam
                     
-        L, U = np.array([[0]*3]*3)
+        L = np.array([[0.0]*3]*3)
+        U = np.array([[0.0]*3]*3)
         
         for i in range(n):
             for j in range(n):
@@ -258,7 +306,7 @@ class solutions:
                 
         return L, U 
                 
-    def LUsolve(self, arr_a: np.ndarray, arr_b: np.ndarray):
+    def LUsolve(self):
         """
             Finding the solution to a system of equations using LU Decomposition.
             
@@ -272,11 +320,13 @@ class solutions:
             :rtype: Numpy ndarray
             
         """
-   
+        a = self.arr_a
+        b = self.arr_b
         n = len(a)
         for k in range(1,n):
             b[k] = b[k] - np.dot(a[k,0:k],b[0:k])
         b[n-1] = b[n-1]/a[n-1,n-1]
+        
         for k in range(n-2,-1,-1):
             b[k] = (b[k] - np.dot(a[k,k+1:n],b[k+1:n]))/a[k,k]
         
@@ -294,11 +344,47 @@ class Eigenvalue:
         return
     
 class Interpolation:
-    def __init__(self):
-        return
     
-    def lagrange(self):
-        return
+    """
+    Instantiate a function.
     
-    def newton(self):
+    :param arr_a: Known 'x' values.
+    :type arr_a: Numpy ndarray or list or series
+           
+    :param arr_b: Known 'y' values.
+    :type arr_b: Numpy ndarray or list or series
+    
+    """
+    def __init__(self, x_val, y_val):
+        self.x_val = x_val
+        self.y_val = y_val
+            
+    def lagrange(self, x: float) -> float:
+        
+        """
+            Implementation of Lagrange's interpolation formula.
+            
+            :param x: The 'x' value in question.
+            :type x: float
+            
+            :return: Interpolated 'y' value.
+            :rtype: float
+            
+        """
+        
+        result = 0.0
+        for i in range(len(self.x_val)):
+            temp = self.y_val[i]
+            
+            for j in range(len(self.x_val)):
+                if i != j:
+                    temp = temp* (x - self.x_val[j])/(self.x_val[i] - self.x_val[j])
+                    
+            result += temp
+        
+        return result
+    
+    def newton_dd(self):
+        
+        
         return

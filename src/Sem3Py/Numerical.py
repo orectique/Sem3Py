@@ -147,7 +147,7 @@ class Roots:
             return arr
         return
     
-    def newton_raphson(self, x0: float, max_itn = 100, delta = 1e-6):
+    def newton_raphson(self, x0: float, max_itn = 100, delta = 0.0001):
         """
         Finding the root of a function using Newton-Raphson method.
 
@@ -257,7 +257,7 @@ class Solutions:
                 
                 temp_arr2.append(funcs[i](temp_arr))
                                
-            arr2 = np.vstack([arr2, some_arr])
+            arr2 = np.vstack([arr2, temp_arr2])
             arr1 = temp_arr2
                         
             ls = [abs((arr2[itn, i] - arr2[itn-1, i])/arr2[itn, i]) for i in range(len(arr1))]
@@ -334,14 +334,37 @@ class Solutions:
 
     
 class Eigenvalue:
-    def __init__(self):
+    def __init__(self, matrix, init_vector):
+        self.matrix = matrix
+        self.init_vector = init_vector
+        
         return
     
     def jacobi(self):
         return
     
-    def power(self):
-        return
+    def power(self, max_itn = 100, delta = 0.0001):
+        eig_val = 0.0000
+        eig_prev = 1.0000
+        eig_vect = self.init_vector
+        matrix = self.matrix
+        itn = 1
+        
+        table = np.array(['itn', 'eig_val', 'eig_vect'], dtype = object)
+        
+        while abs(eig_val - eig_prev) >= delta and itn <= max_itn:
+            eig_vect = np.dot(matrix, eig_vect)
+            
+            eig_prev = eig_val
+            
+            eig_val = abs(eig_vect).max()
+            eig_vect = eig_vect/eig_vect.max()
+            
+            table = np.vstack([table, [itn, eig_val, eig_vect]])
+                
+            itn += 1
+                 
+        return table
     
 class Interpolation:
     

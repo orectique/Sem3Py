@@ -1,6 +1,6 @@
 import numpy as np
 
-class optimize:
+class Optimize:
     
     """
     Instantiate a function.
@@ -11,7 +11,7 @@ class optimize:
     :param dx: The derivative of the function passed to 'func'. Optional - Used only in Newton-Raphson method.
     :type dx: Lambda function object
     """
-    def __init__(self, func, dx, ddx):
+    def __init__(self, func, dx = None, ddx = None):
         self.func = func
         self.dx = dx
         self.ddx = ddx
@@ -60,12 +60,13 @@ class optimize:
                 d = (b -  a)/phi
                 fd = self.func(d)
             
-            arr = np.vstack([arr, [itn, a, c, d, b]])
             itn += 1
+            arr = np.vstack([arr, [itn, a, c, d, b]])
+            
         
         return arr
     
-    def fibonacci(self, lbound: float, ubound: float, max_itn = 100, delta = 0.000001):
+    def fibonacci(self, lbound: float, ubound: float, max_itn = 100, delta = 0.0001):
         """
         Finding the root of a function using bisection method.
 
@@ -88,9 +89,48 @@ class optimize:
         a = lbound
         b = ubound
         farr = [1, 1]
-        n = 1
+        n = 2
         
+        while True:
+            farr.append(farr[n-1] + farr[n-2])
+            
+            if farr[n] > (b - a)/delta:
+                break
+            
+            n += 1
+            
+        c = a + farr[n-2]/farr[n]*(b-a)
+        d = a + farr[n-1]/farr[n]*(b-a)
         
+        fc = self.func(c)
+        fd = self.func(d)
+        
+        itn = 0
+        
+        arr = [itn, a, b, c, d]
+        
+        n = n - 1
+        
+        while itn <= max_itn and n >= 2: #abs(b - a) >= delta and 
+            if fc < fd:
+                b = d
+                d = c
+                fd = fc
+                c = a + farr[n-2]/farr[n]*(b-a)
+                fc = self.func(c)
+            else:
+                a = c
+                c = d
+                fc = fd
+                d = a + farr[n-1]/farr[n]*(b-a)
+                fd = self.func(d)
+            
+            itn += 1
+            arr = np.vstack([arr, [itn, a, c, d, b]])
+            
+            n = n - 1
+            
+        return arr
         
         
         return

@@ -407,7 +407,43 @@ class Interpolation:
         
         return result
     
-    def newton_dd(self):
+    def newton_dd(self, x_new: float, forward : bool = True):
+        """
+            Implementation of Lagrange's interpolation formula.
+            
+            :param x_new: The 'x' value in question.
+            :type x_new: float
+            
+            :param forward: Selection of forward or backward algorithm
+            :type forward: bool
+            
+            :return: Interpolated 'y' value.
+            :rtype: float
+
+        """
+    
+        x = self.x_val
+        y = self.y_val 
+    
+        n = len(y)
+        coef = np.zeros([n, n])
+        coef[:,0] = y
+        for j in range(1,n):
+            for i in range(n-j):
+                coef[i][j] = (coef[i+1][j-1]-coef[i][j-1])/(x[i+j]-x[i])
+            
+            
+        if forward:
+            cf = coef[0, :]
+        else:
+            cf = np.flipud(coef).diagonal()
         
-        
-        return
+            
+        k = 1
+        p = 0
+        for i in range(len(cf)):
+            p += cf[i]*k
+            k *= x_new - x[i]
+                
+    
+        return coef, p

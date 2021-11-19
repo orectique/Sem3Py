@@ -409,7 +409,7 @@ class Interpolation:
     
     def newton_dd(self, x_new: float, forward : bool = True):
         """
-            Implementation of Lagrange's interpolation formula.
+            Implementation of Newton's divided difference algorithm.
             
             :param x_new: The 'x' value in question.
             :type x_new: float
@@ -447,3 +447,64 @@ class Interpolation:
                 
     
         return coef, p
+
+    def differentiate(self, x_new: float, h : float, second :bool = False, forward: bool = True):
+
+        x = self.x_val
+        y = self.y_val 
+
+        x_index = x.index(x_new)
+    
+        n = len(y)
+        coef = np.zeros([n, n])
+        coef[:,0] = y
+        for j in range(1,n):
+            for i in range(n-j):
+                coef[i][j] = (coef[i+1][j-1]-coef[i][j-1])
+
+
+        if forward:
+            if second:
+                pass
+                
+            else:
+                delt = coef[x_index, :]
+                val = 0
+                for i in range(1, n + 1):
+                    if i%2 == 0:
+                        val -= (1/i)*delt[i-1]  
+                    else:
+                        val += (1/i)*delt[i-1]
+                dy = (1/h)*val
+                print(dy)
+
+        else:
+            if second:
+                pass
+            
+            else:
+                delt = coef[x_index, :]
+                print(delt)
+                val = 0
+                for i in range(1, n + 1):
+                   val += (1/i)*delt[i-1]
+                dy = (1/h)*val
+                print(dy)
+
+
+
+
+        #return coef, dy
+    
+class O_D_E:
+    def __init__(self):
+        pass
+
+    def euler(self):
+        pass
+
+    def mod_euler(self):
+        pass
+
+    def range_kutta(self):
+        pass

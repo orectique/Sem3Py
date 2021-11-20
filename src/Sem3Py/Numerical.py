@@ -460,7 +460,7 @@ class Interpolation:
             :type h: float
 
             :param second: Selection of order of derivation
-            :type forward: bool
+            :type second: bool
             
             :param forward: Selection of forward or backward algorithm
             :type forward: bool

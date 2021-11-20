@@ -450,61 +450,278 @@ class Interpolation:
 
     def differentiate(self, x_new: float, h : float, second :bool = False, forward: bool = True):
 
+        """
+            Implementation of Newton's forward and backward difference differentiation algorithms.
+            
+            :param x_new: The 'x' value in question.
+            :type x_new: float
+
+            :param h: The h value - the step size
+            :type h: float
+
+            :param second: Selection of order of derivation
+            :type forward: bool
+            
+            :param forward: Selection of forward or backward algorithm
+            :type forward: bool
+            
+            :return: Interpolated 'y' value.
+            :rtype: float
+
+        """
+        
         x = self.x_val
-        y = self.y_val 
+        y = self.y_val
 
-        x_index = x.index(x_new)
-    
+
         n = len(y)
-        coef = np.zeros([n, n])
-        coef[:,0] = y
-        for j in range(1,n):
-            for i in range(n-j):
-                coef[i][j] = (coef[i+1][j-1]-coef[i][j-1])
 
-
+        arr = [0, 0.0, 0.9999999999217246, 0.9999999999746642, 0.9166666666919701, 0.8333333333563364, 0.7611111111427086, 0.7000000000510863, 0.6482142857779337, 0.6039682540329495, 0.5657936508246969, 0.5325396825532482, 0.5033128908190265, 0.47741702740370173, 0.45430482214953094, 0.4335416435253855, 0.4147786241242193, 0.39773282270807536, 0.3821725024909123, 0.36790611347003926, 0.35477396569519837]
+        
         if forward:
+
+            x_index = x.index(x_new)
+
+            coef = np.zeros([n, n])
+            coef[:,0] = y
+            for j in range(1,n):
+                for i in range(n-j):
+                    coef[i][j] = (coef[i+1][j-1]-coef[i][j-1])
+
+            
+            delt = coef[x_index,:]
+            val = 0
+
             if second:
-                pass
+                for i in range(2, n):
+                    if i%2 == 0:
+                        val += arr[i]*delt[i]  
+                    else:
+                        val -= arr[i]*delt[i]
+                dy = (1/h**2)*val
+                
                 
             else:
-                delt = coef[x_index, :]
-                val = 0
-                for i in range(1, n + 1):
+
+                i = 1
+                while i<n:
                     if i%2 == 0:
-                        val -= (1/i)*delt[i-1]  
+                        val -= (1/i)*delt[i]  
                     else:
-                        val += (1/i)*delt[i-1]
+                        val += (1/i)*delt[i]
+                    i += 1
                 dy = (1/h)*val
-                print(dy)
+                
 
         else:
+
+            x.reverse()
+            y.reverse()
+
+            x_index = x.index(x_new)
+
+            coef = np.zeros([n, n])
+            coef[:,0] = y
+            for j in range(1,n):
+                for i in range(n-j):
+                    coef[i][j] = -(coef[i+1][j-1]-coef[i][j-1])
+
+            delt = coef[x_index,:]
+            val = 0
+
+
             if second:
-                pass
+                for i in range(2, n):
+                    val += arr[i]*delt[i]
+                dy = (1/h**2)*val
+
             
             else:
-                delt = coef[x_index, :]
-                print(delt)
-                val = 0
-                for i in range(1, n + 1):
-                   val += (1/i)*delt[i-1]
+                               
+                i = 1
+                while i<n:
+                   val += (1/i)*delt[i]
+                   i += 1
                 dy = (1/h)*val
-                print(dy)
+        
+        return dy
+
+    def trapezoidal(self, h : float):
+        """
+        Implementation of Trapezoidal method of Integration
+
+        :param h: The 'h' value - step size.
+        :type h: float
+        
+        """
+        y = self.y_val
+
+        return (h/2)*(2*sum(y[1: -1]) + y[0] + y[-1])
+
+    def simpsons(self, h: float, three_eighths : bool= False ):
+        """
+        Implementation of Simpson's methods of Integration
+
+        :param h: The 'h' value - step size.
+        :type h: float
+
+        :param three_eights: True - Simpson's 3/8 method, False(Default) - Simspson's 1/3 method
+        :type three_eights: bool
+        
+        """
+        y = self.y_val
+        f = y.pop(0)
+        l = y.pop(-1)
+
+        if ~three_eighths:
+            
+            return (h/3)*(f + l + 4*sum([y[i] for i in range(len(y)) if i%2 == 0]) + 2*sum([y[i] for i in range(len(y)) if i%2 == 1]))
+        
+        else:
+            return (3*h/8)*(f + l + 3*sum([y[i] for i in range(len(y)) if (i + 1)%3 != 0]) + 2*sum([y[i] for i in range(len(y)) if (i + 1)%3 == 0]))
 
 
 
-
-        #return coef, dy
+        
     
 class O_D_E:
-    def __init__(self):
-        pass
+    """
+    Instantiate a function.
 
-    def euler(self):
-        pass
+    :param func: Function of x and y
+    :type func: Lambda function  
+    
+    :param x_init: Initial x value
+    :type x_init: float
+           
+    :param y_init: Initial y value
+    :type y_init: float
+    
+    """
+    def __init__(self, func, x_init: float, y_init: float):
+        self.func = func
+        self.x_init = x_init
+        self.y_init = y_init
 
-    def mod_euler(self):
-        pass
+    def euler(self, x_new : float, h: float):
 
-    def range_kutta(self):
-        pass
+        """
+    Implementation of Euler's method for solving Initial Value Problem.
+    
+    :param x_new: The x value as input
+    :type x_new: float
+           
+    :param h: The h value - step size.
+    :type h: float
+    
+    """
+
+        fun = self.func
+        x = []
+        y = []
+
+        x_val = self.x_init
+        y_val = self.y_init
+
+        while x_val < x_new:
+            y_val += h*fun(x_val, y_val)
+            x_val += h
+            x.append(x_val)
+            y.append(y_val)
+            
+        
+        return list(zip(x, y))
+
+    def mod_euler(self, x_new : float, h: float):
+
+        """
+    Implementation of Modified Euler's method for solving Initial Value Problem.
+    
+    :param x_new: The x value as input
+    :type x_new: float
+           
+    :param h: The h value - step size.
+    :type h: float
+    
+    """
+
+        fun = self.func
+        x = []
+        y = []
+
+        x_val = self.x_init
+        y_val = self.y_init
+
+        while x_val < x_new:
+            y_val += h*fun(x_val + h/2, y_val + (h/2)*fun(x_val, y_val))
+            x_val += h
+            x.append(x_val)
+            y.append(y_val)
+        
+        return list(zip(x, y))
+
+    def runge_kutta2(self, x_new : float, h: float):
+
+        """
+    Implementation of Second Order Runge-Kutta method for solving Initial Value Problem.
+    
+    :param x_new: The x value as input
+    :type x_new: float
+           
+    :param h: The h value - step size.
+    :type h: float
+    
+    """
+
+        fun = self.func
+        x = []
+        y = []
+
+        x_val = self.x_init
+        y_val = self.y_init
+
+        while x_val < x_new:
+
+            k1 = h*fun(x_val, y_val)
+            k2 = h*fun(x_val + h, y_val + k1)
+
+            y_val += (k1 + k2)/2
+            x_val += h
+            x.append(x_val)
+            y.append(y_val)
+        
+        return list(zip(x, y))
+
+    def runge_kutta4(self, x_new : float, h: float):
+
+        """
+    Implementation of Fourth Order Runge-Kutta method for solving Initial Value Problem.
+    
+    :param x_new: The x value as input
+    :type x_new: float
+           
+    :param h: The h value - step size.
+    :type h: float
+    
+    """
+
+        fun = self.func
+        x = []
+        y = []
+
+        x_val = self.x_init
+        y_val = self.y_init
+
+        while x_val < x_new:
+
+            k1 = h*fun(x_val, y_val)
+            k2 = h*fun(x_val + h/2, y_val + k1/2)
+            k3 = h*fun(x_val + h/2, y_val + k2/2)
+            k4 = h*fun(x_val + h, y_val + k3)
+
+            y_val += (1/6)*(k1 + 2*k2 + 2*k3 + k4)
+            x_val += h
+            x.append(x_val)
+            y.append(y_val)
+        
+        return list(zip(x, y))

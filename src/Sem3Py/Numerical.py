@@ -226,7 +226,7 @@ class Solutions:
         """
             Gauss Seidel approximation of the solution to a system of equations.
             
-            :param funcs: List of lambda functions of lists.
+            :param funcs: List of lambda functions.
             :type funcs: list
             
             :param guess: Vector of guessed values.

@@ -226,7 +226,7 @@ class Solutions:
         """
             Gauss Seidel approximation of the solution to a system of equations.
             
-            :param funcs: List of lambda functions.
+            :param funcs: List of lambda functions of list.
             :type funcs: list
             
             :param guess: Vector of guessed values.
@@ -239,6 +239,7 @@ class Solutions:
             :rtype: Numpy ndarray
             
         """
+
         
         funcs = funcs
         arr1 = guess

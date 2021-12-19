@@ -693,6 +693,39 @@ class O_D_E:
         
         return list(zip(x, y))
 
+    def runge_kutta3(self, x_new : float, h: float):
+
+        """
+    Implementation of Third Order Runge-Kutta method for solving Initial Value Problem.
+    
+    :param x_new: The x value as input
+    :type x_new: float
+           
+    :param h: The h value - step size.
+    :type h: float
+    
+    """
+
+        fun = self.func
+        x = []
+        y = []
+
+        x_val = self.x_init
+        y_val = self.y_init
+
+        while x_val < x_new:
+
+            k1 = h*fun(x_val, y_val)
+            k2 = h*fun(x_val + h/2, y_val + k1/2)
+            k3 = h*fun(x_val + h, y_val + 2*k2 - k1)
+
+            y_val += (1/6)*(k1 + 4*k2 + k3)
+            x_val += h
+            x.append(x_val)
+            y.append(y_val)
+        
+        return list(zip(x, y))
+
     def runge_kutta4(self, x_new : float, h: float):
 
         """
